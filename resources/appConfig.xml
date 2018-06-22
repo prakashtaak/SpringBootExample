@@ -1,0 +1,13 @@
+<config>
+    <JdbcConnector name="jdbc" type="com.jdbc" dataSourceUrl="asdsa" userName="rrr" password="www" />
+    <CassandraConnector name="cassandra" type="com.cassandra" datasourceUrl="dgfddsfd"  />
+    <datasources>
+        <datasource name="excel"
+                    class="com.saama.vividsense.datasource.excel.SpreadSheetConnectorFactory">
+            <properties>
+                <property key="url"
+                          value="classpath:dashboardXml/excel/vividsense_13.xlsx" />
+            </properties>
+        </datasource>
+    </datasources>
+</config>

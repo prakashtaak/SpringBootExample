@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="appConfig" type="LoadTestingConfig"/>
+
+    <xs:element name="datasource" type="datasource"/>
+
+    <xs:element name="property" type="property"/>
+
+    <xs:complexType name="LoadTestingConfig">
+        <xs:all>
+            <xs:element name="datasources" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="datasource" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:all>
+
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="tps" type="xs:string" use="required"/>
+        <xs:attribute name="batchSize" type="xs:int"/>
+
+    </xs:complexType>
+
+    <xs:complexType name="datasource">
+        <xs:complexContent>
+            <xs:all>
+                <xs:sequence>
+                    <xs:element name="properties" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:all>
+            <xs:attribute name="class" type="xs:string" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="property">
+        <xs:complexContent>
+
+                <xs:sequence />
+                <xs:attribute name="key" type="xs:string" use="required" />
+                <xs:attribute name="value" type="xs:string" use="required" />
+
+        </xs:complexContent>
+    </xs:complexType>
+
+
+</xs:schema>

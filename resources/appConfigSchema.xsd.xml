@@ -1,0 +1,14 @@
+<appConfig name="string" tps="string" batchSize="3">
+  <!--Optional:-->
+  <datasources>
+    <!--Zero or more repetitions:-->
+    <datasource class="string" name="string">
+      <!--Optional:-->
+      <properties>
+        <!--Zero or more repetitions:-->
+        <property key="string" value="string"/>
+      </properties>
+    </datasource>
+  </datasources>
+
+</appConfig>

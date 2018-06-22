@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+    <xs:element name="datasource" type="datasource"/>
+    <xs:element name="property" type="property"/>
+    <xs:element name="appConfig" type="LoadTestingConfig"/>
+    <xs:element name="dataGenerationClass" type="dataGenerationClass"/>
+    <xs:element name="data" type="data"/>
+
+
+
+
+    <xs:element name="webServiceInfo" type="webServiceInfo"/>
+
+
+    <xs:complexType name="webServiceInfo">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+                <xs:all>
+                    <xs:element name="url" type="xs:string" minOccurs="1"/>
+                    <xs:element name="serviceName" type="xs:string" minOccurs="1"/>
+                    <xs:element name="properties" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:all>
+                <xs:attribute name="webServiceType" type="ServiceTypeEnum" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
+
+    <xs:simpleType name="ServiceTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SOAP"/>
+            <xs:enumeration value="REST"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="LoadTestingConfig">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+                <xs:all>
+                    <xs:element name="datasources" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="datasource" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="dataGenerationClasses" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="dataGenerationClass" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+
+                </xs:all>
+
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="tps" type="xs:string" use="required"/>
+                <xs:attribute name="batchSize" type="xs:int"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="data">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+                <xs:all>
+                    <xs:element ref="queryType" minOccurs="1"/>
+                </xs:all>
+                <xs:attribute name="type" type="inputType" use="required"/>
+
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:element name="queryType" abstract="true"/>
+
+
+    <xs:element name="query" substitutionGroup="queryType">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="script" substitutionGroup="queryType">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="id" type="xs:string" use="required"/>
+                    <xs:attribute name="lang" type="langEnum" use="optional" default="mvel"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="loadFromFile" substitutionGroup="queryType">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="filePath" type="xs:string"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="langEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="scala"/>
+            <xs:enumeration value="java"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="inputType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RUNTIME_DATA"/>
+            <xs:enumeration value="DATA_FROM_FILE"/>
+            <xs:enumeration value="DATA_FROM_DB"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="dataGenerationClass">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+
+                <xs:all>
+                    <xs:element name="data" type="data"/>
+                </xs:all>
+
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="class" type="xs:string" use="required"/>
+                <xs:attribute name="dataSource" type="xs:string" use="required"/>
+
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="abstractRequestBody" abstract="true">
+        <xs:sequence/>
+    </xs:complexType>
+
+
+    <xs:complexType name="datasource">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+
+                <xs:sequence>
+                    <xs:element name="properties" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+
+                <xs:attribute name="class" type="xs:string" use="required"/>
+                <xs:attribute name="name" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="property">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+                <xs:sequence/>
+                <xs:attribute name="key" type="xs:string" use="required"/>
+                <xs:attribute name="value" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+</xs:schema>
