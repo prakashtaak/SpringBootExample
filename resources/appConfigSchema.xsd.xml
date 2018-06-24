@@ -1,4 +1,6 @@
-<appConfig name="string" tps="string" batchSize="3">
+<xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance ./appConfigSchema.xsd">
+<appConfig  name="string" tps="string" batchSize="3">
   <!--Optional:-->
   <datasources>
     <!--Zero or more repetitions:-->
@@ -10,5 +12,24 @@
       </properties>
     </datasource>
   </datasources>
+  <!--Optional:-->
+  <dataGenerationClasses>
+    <!--Zero or more repetitions:-->
+    <dataGenerationClass name="string" class="string" dataSource="string">
+      <data type="RUNTIME_DATA">
 
+        <query>sele sajdnsj </query>
+      </data>
+    </dataGenerationClass>
+  </dataGenerationClasses>
+  <webServiceInfo webServiceType="SOAP">
+    <url>string</url>
+    <serviceName>string</serviceName>
+    <!--Optional:-->
+    <properties>
+      <!--Zero or more repetitions:-->
+      <property key="string" value="string"/>
+    </properties>
+  </webServiceInfo>
+  <sender HttpClient="Wsimport" class="string"/>
 </appConfig>

@@ -7,8 +7,26 @@
     <xs:element name="appConfig" type="LoadTestingConfig"/>
     <xs:element name="dataGenerationClass" type="dataGenerationClass"/>
     <xs:element name="data" type="data"/>
+    <xs:element name="sender" type="sender"/>
 
 
+    <xs:complexType name="sender">
+        <xs:complexContent>
+            <xs:extension base="abstractRequestBody">
+                <xs:all/>
+                <xs:attribute name="HttpClient" type="HttpClientTypes" use="required"/>
+                <xs:attribute name="class" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:simpleType name="HttpClientTypes">
+            <xs:restriction  base="xs:string">
+                <xs:enumeration value="Wsimport"/>
+                <xs:enumeration value="AXIOM"/>
+            </xs:restriction>
+    </xs:simpleType>
 
 
     <xs:element name="webServiceInfo" type="webServiceInfo"/>
@@ -47,20 +65,22 @@
         <xs:complexContent>
             <xs:extension base="abstractRequestBody">
                 <xs:all>
-                    <xs:element name="datasources" minOccurs="0">
+                    <xs:element name="datasources" minOccurs="1">
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element ref="datasource" minOccurs="0" maxOccurs="unbounded"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="dataGenerationClasses" minOccurs="0">
+                    <xs:element name="dataGenerationClasses" minOccurs="1">
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element ref="dataGenerationClass" minOccurs="0" maxOccurs="unbounded"/>
+                                <xs:element ref="dataGenerationClass" minOccurs="1" maxOccurs="unbounded"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
+                    <xs:element name="webServiceInfo" type="webServiceInfo" minOccurs="1"/>
+                    <xs:element name="sender" type="sender" minOccurs="1"/>
 
                 </xs:all>
 
@@ -75,7 +95,7 @@
         <xs:complexContent>
             <xs:extension base="abstractRequestBody">
                 <xs:all>
-                    <xs:element ref="queryType" minOccurs="1"/>
+                    <xs:element  ref="queryType" minOccurs="1"/>
                 </xs:all>
                 <xs:attribute name="type" type="inputType" use="required"/>
 
@@ -101,7 +121,7 @@
             <xs:simpleContent>
                 <xs:extension base="xs:string">
                     <xs:attribute name="id" type="xs:string" use="required"/>
-                    <xs:attribute name="lang" type="langEnum" use="optional" default="mvel"/>
+                    <xs:attribute name="lang" type="langEnum" />
                 </xs:extension>
             </xs:simpleContent>
         </xs:complexType>
